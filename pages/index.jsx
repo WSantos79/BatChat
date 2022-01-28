@@ -162,7 +162,7 @@ export default function PaginaInicial() {
               }}
             >
               {username.length > 2 && x != 'n' ? userData.login : `Batman`}
-              {appConfig.nome = userData.login};
+              {appConfig.nome = userData.login}
 
             </Text>
             <Text
