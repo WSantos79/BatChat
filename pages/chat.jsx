@@ -19,7 +19,6 @@ export default function ChatPage() {
   const [msg, setMsg] = useState("");
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
   const [loading, setLoading] = useState(true);
-  const usuario = appConfig.nome;
 
   useEffect(() => {
     supabaseClient
@@ -36,7 +35,7 @@ export default function ChatPage() {
   function handleNovaMsg(digitado) {
     const mensagem = {
       // id: listaDeMensagens.length,
-      from: usuario,
+      from: appConfig.username,
       texto: digitado,
     };
 

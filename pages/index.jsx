@@ -32,8 +32,7 @@ export default function PaginaInicial() {
   }; 
 
   useEffect(() => {
-    getUserData();
-    appConfig.nome = userData.login;
+    getUserData();    
   }, [username]);
 
   return (
