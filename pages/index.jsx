@@ -161,7 +161,9 @@ export default function PaginaInicial() {
                 borderRadius: "1000px",
               }}
             >
-              {username.length > 2 && x != 'n' ? userData.login : `Bat`}
+              {username.length > 2 && x != 'n' ? userData.login : `Batman`}
+              {appConfig.nome = userData.login};
+
             </Text>
             <Text
               variant="body4"
