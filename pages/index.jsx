@@ -33,6 +33,7 @@ export default function PaginaInicial() {
 
   useEffect(() => {
     getUserData();
+    appConfig.nome = userData.login;
   }, [username]);
 
   return (
@@ -162,7 +163,7 @@ export default function PaginaInicial() {
               }}
             >
               {username.length > 2 && x != 'n' ? userData.login : `Batman`}
-              {appConfig.nome = userData.login}
+              
 
             </Text>
             <Text
