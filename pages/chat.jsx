@@ -6,24 +6,54 @@ import {
   Button,
   Icon,
 } from "@skynexui/components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import appConfig from "../config.json";
+import { createClient } from "@supabase/supabase-js";
+
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyMjE4OCwiZXhwIjoxOTU4ODk4MTg4fQ.0CUNCKzptu_jnI1AMmqQz1UfM5YtVWdp5ukosh2k-y8";
+const SUPABASE_URL = "https://ijzsexiwhccnepwwhlmt.supabase.co";
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ChatPage() {
   const [msg, setMsg] = useState("");
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const usuario = appConfig.username;
+
+  useEffect(() => {
+    supabaseClient
+      .from("mensagens")
+      .select("*")
+      .order("id", { ascending: false })
+      .then(({ data }) => {
+        // usa o { data } para pegar o dado direto q precisa ou apenas (dados)
+        setListaDeMensagens(data);
+        setLoading(false);
+      });
+  }, [listaDeMensagens]); // se a 'listaDeMensagens' mudar, ele executa
 
   function handleNovaMsg(digitado) {
     const mensagem = {
-      id: listaDeMensagens.length,
-      from: "Well San",
+      // id: listaDeMensagens.length,
+      from: usuario,
       texto: digitado,
     };
-    setListaDeMensagens([mensagem, ...listaDeMensagens]);
+
+    supabaseClient
+      .from("mensagens") // nome do bd
+      .insert([
+        // tem .delete
+        mensagem, // nome const da const da handlenovamsg
+      ])
+      .then(({ data }) => {
+        setListaDeMensagens([data[0], ...listaDeMensagens]); // adcionando nova msg no bd
+      });
+
     setMsg("");
   }
 
-  function handleDeletMsg(msg) {
+  /*function handleDeletMsg(msg) {
     // id da msg
     const id = msg.id;
     // lista filtrada
@@ -31,7 +61,7 @@ export default function ChatPage() {
       return msg.id != id;
     });
     setListaDeMensagens(msgFiltrada);
-  }
+  }*/
 
   return (
     <Box
@@ -68,7 +98,7 @@ export default function ChatPage() {
             display: "flex",
             flex: 1,
             height: "80%",
-            backgroundColor: appConfig.theme.colors.neutrals[600],
+            backgroundColor: appConfig.theme.colors.neutrals[600],          
             flexDirection: "column",
             borderRadius: "5px",
             padding: "16px",
@@ -77,7 +107,9 @@ export default function ChatPage() {
           {/* <MessageList mensagens={[]} /> */}
           <MessageList
             mensagens={listaDeMensagens}
-            handleDeletMsg={handleDeletMsg}
+           // handleDeletMsg={handleDeletMsg}
+            loading={loading}
+            setListaDeMensagens={setListaDeMensagens}
           />
 
           <Box
@@ -158,7 +190,27 @@ function Header() {
 }
 
 function MessageList(props) {
-  const handleDeletMsg = props.handleDeletMsg;
+  function deleteMessage(mensagem) {
+    if (mensagem.from == appConfig.username) {
+      // deletar msg
+
+      //console.log(mensagem.id)
+      supabaseClient
+        .from("mensagens")
+        .delete()
+        .match({ id: mensagem.id })
+        .then(({ data }) => {
+          const messageListFiltered = props.mensagens.filter(
+            (messageFiltered) => {
+              return messageFiltered.id != data[0].id;
+            }
+          );
+          props.setListaDeMensagens(messageListFiltered);
+        });
+    }
+  }
+
+  //const handleDeletMsg = props.handleDeletMsg;
   return (
     <Box
       tag="ul"
@@ -171,6 +223,27 @@ function MessageList(props) {
         marginBottom: "16px",
       }}
     >
+      {props.loading && (
+        <Box
+          styleSheet={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Image
+            styleSheet={{
+              borderRadius: "30%",
+
+              maxWidth: "150px",
+              align: "center",
+            }}
+            alt="Carregando"
+            src="batload.gif"
+          />
+        </Box>
+      )}
       {props.mensagens.map((mensagem) => {
         return (
           <Text
@@ -198,7 +271,7 @@ function MessageList(props) {
                   display: "inline-block",
                   marginRight: "8px",
                 }}
-                src={`https://github.com/wsantos79.png`}
+                src={`https://github.com/${mensagem.from}.png`}
               />
               <Text tag="strong">{mensagem.from}</Text>
               <Text
@@ -226,9 +299,9 @@ function MessageList(props) {
                   mainColor: appConfig.theme.colors.neutrals["000"],
                 }}
                 // quando clicar vai chamar a função de excluir a mensagem
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleDeletMsg(mensagem);
+                onClick={() => {
+                  //e.preventDefault();
+                  deleteMessage(mensagem);
                 }}
               />
             </Box>

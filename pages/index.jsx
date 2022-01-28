@@ -29,7 +29,7 @@ export default function PaginaInicial() {
     } else {
       setUserData({});
     }
-  };
+  }; 
 
   useEffect(() => {
     getUserData();
@@ -100,6 +100,7 @@ export default function PaginaInicial() {
               onChange={(e) => {
                 const digitado = e.target.value;
                 setUsername(digitado);
+                appConfig.username = digitado;
               }}
               textFieldColors={{
                 neutral: {
