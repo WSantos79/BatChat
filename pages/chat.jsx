@@ -19,7 +19,7 @@ export default function ChatPage() {
   const [msg, setMsg] = useState("");
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
   const [loading, setLoading] = useState(true);
-  const usuario = appConfig.username;
+  const usuario = appConfig.nome;
 
   useEffect(() => {
     supabaseClient
