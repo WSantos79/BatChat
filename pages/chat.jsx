@@ -9,13 +9,26 @@ import {
 import React, { useEffect, useState } from "react";
 import appConfig from "../config.json";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
+import { ButtonSendSticker } from "../src/components/ButtonSendSticker";
 
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyMjE4OCwiZXhwIjoxOTU4ODk4MTg4fQ.0CUNCKzptu_jnI1AMmqQz1UfM5YtVWdp5ukosh2k-y8";
 const SUPABASE_URL = "https://ijzsexiwhccnepwwhlmt.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+function escutaMsgRealTime(addMsg) {
+  return supabaseClient
+    .from("mensagens")
+    .on('INSERT', (resposta) => {
+      addMsg(resposta.new);
+    })
+    .subscribe();
+}
+
 export default function ChatPage() {
+  const roteamento = useRouter();
+  const userlogged = roteamento.query.username;
   const [msg, setMsg] = useState("");
   const [listaDeMensagens, setListaDeMensagens] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,13 +43,20 @@ export default function ChatPage() {
         setListaDeMensagens(data);
         setLoading(false);
       });
+
+    escutaMsgRealTime((newMsg) => {
+      setListaDeMensagens((valorAtualDaLista) => {
+        return [newMsg, ...valorAtualDaLista];
+      });
+    });
   }, [listaDeMensagens]); // se a 'listaDeMensagens' mudar, ele executa
 
   function handleNovaMsg(digitado) {
     const mensagem = {
       // id: listaDeMensagens.length,
-      from: appConfig.username,
+      from: userlogged,
       texto: digitado,
+      username: appConfig.username,
     };
 
     supabaseClient
@@ -45,9 +65,7 @@ export default function ChatPage() {
         // tem .delete
         mensagem, // nome const da const da handlenovamsg
       ])
-      .then(({ data }) => {
-        setListaDeMensagens([data[0], ...listaDeMensagens]); // adcionando nova msg no bd
-      });
+      .then(({ data }) => {});
 
     setMsg("");
   }
@@ -61,6 +79,28 @@ export default function ChatPage() {
     });
     setListaDeMensagens(msgFiltrada);
   }*/
+
+  function NovaData(time) {
+    const day = new Date().getDate();
+    const dayDiff = day - parseInt(time.substring(8, 10));
+    var date = "";
+    switch (dayDiff) {
+      case 0:
+        date = "Hoje, " + time.substring(11, 16);
+        break;
+      case 1:
+        date = "Ontem, " + time.substring(11, 16);
+        break;
+      default:
+        date =
+          time.substring(8, 10) +
+          "/" +
+          time.substring(5, 7) +
+          "/" +
+          time.substring(0, 4);
+    }
+    return date;
+  }
 
   return (
     <Box
@@ -97,18 +137,23 @@ export default function ChatPage() {
             display: "flex",
             flex: 1,
             height: "80%",
-            backgroundColor: appConfig.theme.colors.neutrals[600],          
+            backgroundColor: appConfig.theme.colors.neutrals[600],
             flexDirection: "column",
             borderRadius: "5px",
             padding: "16px",
+            wordBreak: "break-word",
+            overflowY: "auto",
+            overflowWrap: "break-word",
           }}
         >
           {/* <MessageList mensagens={[]} /> */}
           <MessageList
             mensagens={listaDeMensagens}
-           // handleDeletMsg={handleDeletMsg}
+            // handleDeletMsg={handleDeletMsg}
             loading={loading}
             setListaDeMensagens={setListaDeMensagens}
+            userlogged={userlogged}
+            NovaData={NovaData}
           />
 
           <Box
@@ -157,6 +202,12 @@ export default function ChatPage() {
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
             />
+            {/* CallBack do buttonSendSticker em onclick*/}
+            <ButtonSendSticker
+              onStickerClick={(sticker) => {
+                handleNovaMsg(`:sticker: ${sticker}`);
+              }}
+            />
           </Box>
         </Box>
       </Box>
@@ -190,25 +241,48 @@ function Header() {
 
 function MessageList(props) {
   function deleteMessage(mensagem) {
-    if (mensagem.from == appConfig.username) {
-      // deletar msg
+    // deletar msg
 
-      //console.log(mensagem.id)
-      supabaseClient
-        .from("mensagens")
-        .delete()
-        .match({ id: mensagem.id })
-        .then(({ data }) => {
-          const messageListFiltered = props.mensagens.filter(
-            (messageFiltered) => {
-              return messageFiltered.id != data[0].id;
-            }
-          );
-          props.setListaDeMensagens(messageListFiltered);
-        });
-    }
+    //console.log(mensagem.id)
+    supabaseClient
+      .from("mensagens")
+      .delete()
+      .match({ id: mensagem.id })
+      .then(({ data }) => {
+        const messageListFiltered = props.mensagens.filter(
+          (messageFiltered) => {
+            return messageFiltered.id != data[0].id;
+          }
+        );
+        props.setListaDeMensagens(messageListFiltered);
+      });
   }
 
+  function icondelete(mensagem) {
+    if (mensagem.from == props.userlogged) {
+      return (
+        <Button
+          /* botão para excluir a mensagem */
+          styleSheet={{
+            borderRadius: "25%",
+            width: "12px",
+            marginLeft: "8px",
+          }}
+          variant="tertiary"
+          colorVariant="dark"
+          label={<Icon label="icon trash" name="FaRegTrashAlt" />}
+          buttonColors={{
+            mainColor: appConfig.theme.colors.neutrals["000"],
+          }}
+          // quando clicar vai chamar a função de excluir a mensagem
+          onClick={() => {
+            //e.preventDefault();
+            deleteMessage(mensagem);
+          }}
+        />
+      );
+    }
+  }
   //const handleDeletMsg = props.handleDeletMsg;
   return (
     <Box
@@ -270,7 +344,7 @@ function MessageList(props) {
                   display: "inline-block",
                   marginRight: "8px",
                 }}
-                src={`https://github.com/${mensagem.from}.png`}
+                src={`https://github.com/${mensagem.username}.png`}
               />
               <Text tag="strong">{mensagem.from}</Text>
               <Text
@@ -281,30 +355,25 @@ function MessageList(props) {
                 }}
                 tag="span"
               >
-                {new Date().toLocaleDateString()}
+                {props.NovaData(mensagem.created_at)}
+                {/* new Date().toLocaleDateString()  */}
               </Text>
-
-              <Button
-                /* botão para excluir a mensagem */
-                styleSheet={{
-                  borderRadius: "25%",
-                  width: "12px",
-                  marginLeft: "8px",
-                }}
-                variant="tertiary"
-                colorVariant="dark"
-                label={<Icon label="icon trash" name="FaRegTrashAlt" />}
-                buttonColors={{
-                  mainColor: appConfig.theme.colors.neutrals["000"],
-                }}
-                // quando clicar vai chamar a função de excluir a mensagem
-                onClick={() => {
-                  //e.preventDefault();
-                  deleteMessage(mensagem);
-                }}
-              />
+              {icondelete(mensagem)}
             </Box>
-            {mensagem.texto}
+            {mensagem.texto.startsWith(":sticker:") ? (
+              <Image
+                styleSheet={{
+                  width: "150px",
+                  height: "100px",
+                  //borderRadius: "50%",
+                  display: "inline-block",
+                  marginRight: "8px",
+                }}
+                src={mensagem.texto.replace(":sticker:", "")}
+              />
+            ) : (
+              mensagem.texto
+            )}
           </Text>
         );
       })}
