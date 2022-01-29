@@ -33,6 +33,22 @@ function GlobalStyle() {
         flex: 1;
       }
       /* ./App fit Height */ 
+      
+      /* ./scroll bar do chat */ 
+      * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      list-style:none;
+      -ms-overflow-style: none;
+  }    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(19, 24, 38);
+      }
+      ::-webkit-scrollbar {
+        background: #29333D ;
+    }
+
     `}</style>
   );
 }
