@@ -190,24 +190,31 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
+            {/* CallBack do buttonSendSticker em onclick*/}
+            <ButtonSendSticker
+             styleSheet={{
+              marginLeft: "1px",
+            }}
+              onStickerClick={(sticker) => {
+                handleNovaMsg(`:sticker: ${sticker}`);
+              }}
+            />
             <Button
               iconName="arrowRight"
               onClick={() => {
                 handleNovaMsg(msg);
-              }}
+              }}      
+              styleSheet={{
+              marginLeft: "10px",
+              marginBottom: "8px",
+              }}       
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
                 mainColor: appConfig.theme.colors.primary[500],
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
-            />
-            {/* CallBack do buttonSendSticker em onclick*/}
-            <ButtonSendSticker
-              onStickerClick={(sticker) => {
-                handleNovaMsg(`:sticker: ${sticker}`);
-              }}
-            />
+            />            
           </Box>
         </Box>
       </Box>
@@ -360,12 +367,11 @@ function MessageList(props) {
               </Text>
               {icondelete(mensagem)}
             </Box>
-            {mensagem.texto.startsWith(":sticker:") ? (
+            {mensagem.texto.startsWith(":sticker:") ? ( 
               <Image
                 styleSheet={{
                   width: "150px",
                   height: "100px",
-                  //borderRadius: "50%",
                   display: "inline-block",
                   marginRight: "8px",
                 }}
