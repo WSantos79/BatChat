@@ -1,4 +1,5 @@
 import appConfig from "../config.json";
+import Head from "next/head";
 import {
   Box,
   Button,
@@ -11,23 +12,22 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 function AgaDois(props) {
-  const Tag = props.tag || 'h2';
+  const Tag = props.tag || "h2";
   return (
-      <>
-          <Tag>{props.children}</Tag>
-          <style jsx>{`
-          ${Tag}{
-                  color: ${appConfig.theme.colors.neutrals['101']};
-                  font-size: 24px;
-                  font-weight: 600;
-              }
-          `}
-          </style>
-      </>
-  )
+    <>
+      <Tag>{props.children}</Tag>
+      <style jsx>
+        {`
+          ${Tag} {
+            color: ${appConfig.theme.colors.neutrals["101"]};
+            font-size: 24px;
+            font-weight: 600;
+          }
+        `}
+      </style>
+    </>
+  );
 }
-
-
 
 export default function PaginaInicial() {
   const [username, setUsername] = useState("");
@@ -56,6 +56,10 @@ export default function PaginaInicial() {
 
   return (
     <>
+      <Head>
+        <title>BatChat</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Box
         styleSheet={{
           display: "flex",
@@ -79,14 +83,16 @@ export default function PaginaInicial() {
             },
             width: "100%",
             maxWidth: "700px",
-            borderRadius: '8px', padding: '32px', margin: '16px',
+            borderRadius: "8px",
             padding: "32px",
             margin: "16px",
-            boxShadow: '0 2px 10px 0' + appConfig.theme.colors.primary[100],           
+            padding: "32px",
+            margin: "16px",
+            boxShadow: "0 2px 10px 0" + appConfig.theme.colors.primary[100],
             backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
-          { /*console.log(typeof userData.name === "undefined")*/ }
+          {/*console.log(typeof userData.name === "undefined")*/}
           {/* Formulário */}
           <Box
             as="form"
@@ -129,7 +135,7 @@ export default function PaginaInicial() {
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200], // inpt
                   mainColor: appConfig.theme.colors.primary[600], //borda input
-                  mainColorHighlight: appConfig.theme.colors.primary[100], 
+                  mainColorHighlight: appConfig.theme.colors.primary[100],
                   backgroundColor: appConfig.theme.colors.neutrals[800],
                 },
               }}
@@ -140,7 +146,7 @@ export default function PaginaInicial() {
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
-                mainColor: appConfig.theme.colors.primary[500], 
+                mainColor: appConfig.theme.colors.primary[500],
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}

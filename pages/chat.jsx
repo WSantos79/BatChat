@@ -11,6 +11,7 @@ import appConfig from "../config.json";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { ButtonSendSticker } from "../src/components/ButtonSendSticker";
+import Head from "next/head";
 
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyMjE4OCwiZXhwIjoxOTU4ODk4MTg4fQ.0CUNCKzptu_jnI1AMmqQz1UfM5YtVWdp5ukosh2k-y8";
@@ -116,6 +117,10 @@ export default function ChatPage() {
         color: appConfig.theme.colors.neutrals["101"],
       }}
     >
+      <Head>
+        <title>BatChat</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Box
         styleSheet={{
           display: "flex",
@@ -198,12 +203,13 @@ export default function ChatPage() {
               }}
             />
             {/* CallBack do buttonSendSticker em onclick*/}
-            < Box 
-            styleSheet={{
-              display: "flex",             
-              alignItems: "center",
-              justifyContent: "flex-end"
-            }}>
+            <Box
+              styleSheet={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <ButtonSendSticker
                 onStickerClick={(sticker) => {
                   handleNovaMsg(`:sticker: ${sticker}`);
@@ -286,7 +292,7 @@ function MessageList(props) {
           styleSheet={{
             borderRadius: "25%",
             width: "12px",
-            marginLeft: "8px",            
+            marginLeft: "8px",
           }}
           variant="tertiary"
           colorVariant="dark"
