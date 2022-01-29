@@ -86,7 +86,7 @@ export default function PaginaInicial() {
             backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
-          {console.log(typeof userData.name === "undefined")}
+          { /*console.log(typeof userData.name === "undefined")*/ }
           {/* Formulário */}
           <Box
             as="form"
