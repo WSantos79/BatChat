@@ -20,7 +20,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 function escutaMsgRealTime(addMsg) {
   return supabaseClient
     .from("mensagens")
-    .on('INSERT', (resposta) => {
+    .on("INSERT", (resposta) => {
       addMsg(resposta.new);
     })
     .subscribe();
@@ -108,12 +108,12 @@ export default function ChatPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: appConfig.theme.colors.primary[500],
+        // backgroundColor: appConfig.theme.colors.primary[500],
         backgroundImage: `url(background1.png)`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundBlendMode: "multiply",
-        color: appConfig.theme.colors.neutrals["000"],
+        color: appConfig.theme.colors.neutrals["101"],
       }}
     >
       <Box
@@ -125,9 +125,13 @@ export default function ChatPage() {
           borderRadius: "5px",
           backgroundColor: appConfig.theme.colors.neutrals[700],
           height: "100%",
-          maxWidth: "95%",
+          maxWidth: {
+            xs: "95%",
+            sm: "60%",
+          },
           maxHeight: "95vh",
           padding: "32px",
+          boxShadow: "0 2px 10px 0" + appConfig.theme.colors.primary[100],
         }}
       >
         <Header />
@@ -137,7 +141,7 @@ export default function ChatPage() {
             display: "flex",
             flex: 1,
             height: "80%",
-            backgroundColor: appConfig.theme.colors.neutrals[600],
+            backgroundColor: appConfig.theme.colors.neutrals[601],
             flexDirection: "column",
             borderRadius: "5px",
             padding: "16px",
@@ -159,7 +163,10 @@ export default function ChatPage() {
           <Box
             as="form"
             styleSheet={{
-              display: "flex",
+              display: {
+                xs: "inline",
+                sm: "flex",
+              },
               alignItems: "center",
             }}
           >
@@ -191,30 +198,36 @@ export default function ChatPage() {
               }}
             />
             {/* CallBack do buttonSendSticker em onclick*/}
-            <ButtonSendSticker
-             styleSheet={{
-              marginLeft: "1px",
-            }}
-              onStickerClick={(sticker) => {
-                handleNovaMsg(`:sticker: ${sticker}`);
-              }}
-            />
-            <Button
-              iconName="arrowRight"
-              onClick={() => {
-                handleNovaMsg(msg);
-              }}      
-              styleSheet={{
-              marginLeft: "10px",
-              marginBottom: "8px",
-              }}       
-              buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
-              }}
-            />            
+            < Box 
+            styleSheet={{
+              display: "flex",             
+              alignItems: "center",
+              justifyContent: "flex-end"
+            }}>
+              <ButtonSendSticker
+                onStickerClick={(sticker) => {
+                  handleNovaMsg(`:sticker: ${sticker}`);
+                }}
+              />
+              <Button
+                iconName="arrowRight"
+                onClick={() => {
+                  handleNovaMsg(msg);
+                }}
+                styleSheet={{
+                  marginLeft: "12px",
+                  marginBottom: "8px",
+                  minWidth: "50px",
+                  minHeight: "50px",
+                }}
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals[101],
+                  mainColor: appConfig.theme.colors.primary[500],
+                  mainColorLight: appConfig.theme.colors.primary[400],
+                  mainColorStrong: appConfig.theme.colors.primary[600],
+                }}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -234,7 +247,7 @@ function Header() {
           justifyContent: "space-between",
         }}
       >
-        <Text variant="heading5">Chat</Text>
+        <Text variant="heading5">BatChat</Text>
         <Button
           variant="tertiary"
           colorVariant="neutral"
@@ -273,13 +286,13 @@ function MessageList(props) {
           styleSheet={{
             borderRadius: "25%",
             width: "12px",
-            marginLeft: "8px",
+            marginLeft: "8px",            
           }}
           variant="tertiary"
           colorVariant="dark"
           label={<Icon label="icon trash" name="FaRegTrashAlt" />}
           buttonColors={{
-            mainColor: appConfig.theme.colors.neutrals["000"],
+            mainColor: appConfig.theme.colors.neutrals[101],
           }}
           // quando clicar vai chamar a função de excluir a mensagem
           onClick={() => {
@@ -341,18 +354,35 @@ function MessageList(props) {
             <Box
               styleSheet={{
                 marginBottom: "8px",
+                alignItems: {
+                  xs: "flex-start",
+                  md: "center",
+                },
+                display: "flex",
               }}
             >
-              <Image
-                styleSheet={{
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  marginRight: "8px",
-                }}
-                src={`https://github.com/${mensagem.username}.png`}
-              />
+              <a
+                target="_blank"
+                href={`https://github.com/${mensagem.username}`}
+              >
+                <Image
+                  title={`Ver GitHub ${mensagem.username}`}
+                  styleSheet={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    marginRight: "8px",
+                    hover: {
+                      cursor: "pointer",
+                      width: "35px",
+                      height: "35px",
+                    },
+                  }}
+                  src={`https://github.com/${mensagem.username}.png`}
+                />
+              </a>
+
               <Text tag="strong">{mensagem.from}</Text>
               <Text
                 styleSheet={{
@@ -367,7 +397,7 @@ function MessageList(props) {
               </Text>
               {icondelete(mensagem)}
             </Box>
-            {mensagem.texto.startsWith(":sticker:") ? ( 
+            {mensagem.texto.startsWith(":sticker:") ? (
               <Image
                 styleSheet={{
                   width: "150px",

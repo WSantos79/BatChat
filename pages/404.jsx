@@ -7,15 +7,11 @@ export default function PagNotFound() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            backgroundColor: "black",        
+            
         }}
       >
-        <Image
-          styleSheet={{
-            borderRadius: "50%",
-            marginBottom: "3px",
-            maxWidth: "1000px",
-            align: "center",
-          }}
+        <Image          
           alt="Página não encontrada"
           src="404.jpg"
         />

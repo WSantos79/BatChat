@@ -23,8 +23,8 @@ export function ButtonSendSticker(props) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: appConfig.theme.colors.neutrals[300],
-                    filter: isOpen ? 'grayscale(0)' : 'grayscale(1)',
+                    backgroundColor: appConfig.theme.colors.primary[500],
+                    filter: isOpen ? 'grayscale(1)' : 'grayscale(0)',
                     hover: {
                         filter: 'grayscale(0)',
                     }
@@ -55,7 +55,7 @@ export function ButtonSendSticker(props) {
                 >
                     <Text
                         styleSheet={{
-                            color: appConfig.theme.colors.neutrals["000"],
+                            color: appConfig.theme.colors.neutrals[101],
                             fontWeight: 'bold',
                         }}
                     >

@@ -10,6 +10,25 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+function AgaDois(props) {
+  const Tag = props.tag || 'h2';
+  return (
+      <>
+          <Tag>{props.children}</Tag>
+          <style jsx>{`
+          ${Tag}{
+                  color: ${appConfig.theme.colors.neutrals['101']};
+                  font-size: 24px;
+                  font-weight: 600;
+              }
+          `}
+          </style>
+      </>
+  )
+}
+
+
+
 export default function PaginaInicial() {
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState({});
@@ -42,7 +61,7 @@ export default function PaginaInicial() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: appConfig.theme.colors.primary[500],
+          //backgroundColor: appConfig.theme.colors.primary[500],
           backgroundImage: "url(background1.png)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -60,10 +79,10 @@ export default function PaginaInicial() {
             },
             width: "100%",
             maxWidth: "700px",
-            borderRadius: "5px",
+            borderRadius: '8px', padding: '32px', margin: '16px',
             padding: "32px",
             margin: "16px",
-            boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
+            boxShadow: '0 2px 10px 0' + appConfig.theme.colors.primary[100],           
             backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
@@ -89,7 +108,7 @@ export default function PaginaInicial() {
               marginBottom: "32px",
             }}
           >
-            <h2>Boas vindas de volta ao BatChat!</h2>
+            <AgaDois>Boas vindas de volta ao BatChat!</AgaDois>
             <Text
               variant="body3"
               styleSheet={{
@@ -100,6 +119,7 @@ export default function PaginaInicial() {
 
             <TextField
               fullWidth
+              placeholder="Seu usuário GitHub"
               onChange={(e) => {
                 const digitado = e.target.value;
                 setUsername(digitado);
@@ -107,9 +127,9 @@ export default function PaginaInicial() {
               }}
               textFieldColors={{
                 neutral: {
-                  textColor: appConfig.theme.colors.neutrals[200],
-                  mainColor: appConfig.theme.colors.neutrals[900],
-                  mainColorHighlight: appConfig.theme.colors.primary[500],
+                  textColor: appConfig.theme.colors.neutrals[200], // inpt
+                  mainColor: appConfig.theme.colors.primary[600], //borda input
+                  mainColorHighlight: appConfig.theme.colors.primary[100], 
                   backgroundColor: appConfig.theme.colors.neutrals[800],
                 },
               }}
@@ -119,8 +139,8 @@ export default function PaginaInicial() {
               label="Entrar"
               fullWidth
               buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
+                contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
+                mainColor: appConfig.theme.colors.primary[500], 
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
@@ -138,7 +158,7 @@ export default function PaginaInicial() {
               padding: "16px",
               backgroundColor: appConfig.theme.colors.neutrals[800],
               border: "1px solid",
-              borderColor: appConfig.theme.colors.neutrals[999],
+              borderColor: appConfig.theme.colors.primary[100],
               borderRadius: "10px",
               flex: 1,
               minHeight: "240px",
