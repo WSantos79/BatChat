@@ -6,7 +6,7 @@ import {
   Button,
   Icon,
 } from "@skynexui/components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import appConfig from "../config.json";
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
@@ -194,10 +194,10 @@ export default function ChatPage() {
             // handleDeletMsg={handleDeletMsg}
             loading={loading}
             setListaDeMensagens={setListaDeMensagens}
+            listaDeMensagens={listaDeMensagens}
             userlogged={userlogged}
             NovaData={NovaData}
           />
-
           <Box
             as="form"
             styleSheet={{
@@ -289,7 +289,7 @@ function Header() {
           justifyContent: "space-between",
         }}
       >
-        <Text variant="heading5">BatChat</Text>
+        <Text variant="heading5">BatChat - {appConfig.username}</Text>
         <Button
           variant="tertiary"
           colorVariant="neutral"
@@ -345,7 +345,18 @@ function MessageList(props) {
       );
     }
   }
-  //const handleDeletMsg = props.handleDeletMsg;
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {    
+    let rollToBottom = setTimeout(() => scrollToBottom(), 400);
+    return () => {
+      clearTimeout(rollToBottom);
+    };
+  }, [props.mensagens]);
+
   return (
     <Box
       tag="ul"
@@ -359,6 +370,7 @@ function MessageList(props) {
         marginBottom: "16px",
       }}
     >
+      <div ref={messagesEndRef} />
       {props.loading && (
         <Box
           styleSheet={{
@@ -468,10 +480,12 @@ function MessageList(props) {
               />
             ) : (
               mensagem.texto
-            )}
+            )}           
           </Text>
         );
-      })}
+        
+      })}      
     </Box>
+    
   );
 }
