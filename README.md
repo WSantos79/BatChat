@@ -2,7 +2,7 @@
 
 ## :mag: Veja o projeto online !
 
-:link: https://bat-chat.vercel.app/
+:link: <a href="https://bat-chat.vercel.app/" target="_blank">https://bat-chat.vercel.app/</a>
 
 <br>
 <p align="center">
