@@ -49,6 +49,13 @@ function GlobalStyle() {
         background: #29333D ;
     }
 
+    /* ./link do chat */ 
+
+    a {
+      color: #FFF;
+      text-decoration: none;
+    }
+
     `}</style>
   );
 }

@@ -18,10 +18,26 @@ const SUPABASE_ANON_KEY =
 const SUPABASE_URL = "https://ijzsexiwhccnepwwhlmt.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+function novaMsgSom() {
+  var som = new Audio();
+  som.src =
+    "https://protettordelinks.com/wp-content/baixar/mensagem_msn_toquesengracadosmp3.com.mp3";
+  som.play();
+}
+function enviarMsgSom() {
+  var somB = new Audio();
+  somB.src =
+    "https://protettordelinks.com/wp-content/baixar/mensagem_enviada_msn_toquesengracadosmp3.com.mp3";
+  somB.play();
+}
+
 function escutaMsgRealTime(addMsg) {
   return supabaseClient
     .from("mensagens")
     .on("INSERT", (resposta) => {
+      if (resposta.new.username != appConfig.username) {
+        novaMsgSom();
+      }
       addMsg(resposta.new);
     })
     .subscribe();
@@ -119,10 +135,24 @@ export default function ChatPage() {
     >
       <Head>
         <title>BatChat</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-        <link rel="manifest" href="/site.webmanifest"/>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <Box
         styleSheet={{
@@ -190,6 +220,7 @@ export default function ChatPage() {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   handleNovaMsg(msg);
+                  enviarMsgSom();
                 }
               }}
               placeholder="Insira sua mensagem aqui..."
@@ -216,12 +247,14 @@ export default function ChatPage() {
               <ButtonSendSticker
                 onStickerClick={(sticker) => {
                   handleNovaMsg(`:sticker: ${sticker}`);
+                  enviarMsgSom();
                 }}
               />
               <Button
                 iconName="arrowRight"
                 onClick={() => {
                   handleNovaMsg(msg);
+                  enviarMsgSom();
                 }}
                 styleSheet={{
                   marginLeft: "12px",
@@ -318,7 +351,7 @@ function MessageList(props) {
       tag="ul"
       styleSheet={{
         overflow: "auto",
-        scrollbarColor: appConfig.theme.colors.neutrals[101],        
+        scrollbarColor: appConfig.theme.colors.neutrals[101],
         display: "flex",
         flexDirection: "column-reverse",
         flex: 1,
@@ -393,7 +426,23 @@ function MessageList(props) {
                 />
               </a>
 
-              <Text tag="strong">{mensagem.from}</Text>
+              <a
+                target="_blank"
+                href={`https://github.com/${mensagem.username}`}
+              >
+                <Text
+                  styleSheet={{
+                    hover: {
+                      fontSize: "18px",
+                    },
+                  }}
+                  title={`Ver GitHub ${mensagem.username}`}
+                  tag="strong"
+                >
+                  {mensagem.from}
+                </Text>
+              </a>
+
               <Text
                 styleSheet={{
                   fontSize: "10px",
