@@ -16,7 +16,7 @@
 
 ## :heavy_check_mark: **Descrição**
 
-Projeto desenvolvido durante a imersão React da @alura com @omariosouto e @peas. Um chat em tempo real onde você entra informando um username do GitHub, sem autenticação, obtendo os dados da API do GitHub, podendo mandar mensagens e stickers e apagar somente a própria mensagem, além de quando clicado no perfil é aberto o github do usuário.
+Projeto desenvolvido durante a imersão React da Alura. Um chat em tempo real onde você entra informando um username do GitHub, sem autenticação, obtendo os dados da API do GitHub, podendo mandar mensagens e stickers e apagar somente a própria mensagem, além de quando clicado no perfil é aberto o github do usuário.
 
 ## :hammer: **Tecnologias**
 
