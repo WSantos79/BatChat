@@ -32,7 +32,7 @@ function AgaDois(props) {
 export default function PaginaInicial() {
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState({});
-  const [x, setX] = useState("y");
+  const [verifica, setVerifica] = useState("y");
   const rota = useRouter();
   const gitHubUrl = `https://api.github.com/users/${username}`;
 
@@ -41,10 +41,10 @@ export default function PaginaInicial() {
     const jsonData = await response.json();
     if (jsonData && jsonData.message !== "Not Found") {
       setUserData(jsonData);
-      setX("y");
+      setVerifica("y");
     } else if (username !== "") {
       console.log("usuario não existe");
-      setX("n");
+      setVerifica("n");
     } else {
       setUserData({});
     }
@@ -103,11 +103,13 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={(e) => {
               e.preventDefault();
-              if (typeof userData.name === "undefined") {
+              if (typeof userData.name === "undefined" && verifica != 'n') {
                 rota.push(`/chat?username=Batman`);
-              } else {
+              }else if( verifica == 'n'){
+                rota.push(`/chat?username=${appConfig.username}`);
+              }else {
                 rota.push(`/chat?username=${userData.name}`);
-              }
+              }   //  TarciaMara
             }}
             styleSheet={{
               display: "flex",
@@ -181,7 +183,7 @@ export default function PaginaInicial() {
                 marginBottom: "16px",
               }}
               src={
-                username.length > 2 && x != "n"
+                username.length > 2 && verifica != "n"
                   ? `https://github.com/${username}.png`
                   : `https://avatars.githubusercontent.com/u/98439765?v=4`
               }
@@ -195,7 +197,7 @@ export default function PaginaInicial() {
                 borderRadius: "1000px",
               }}
             >
-              {username.length > 2 && x != "n" ? userData.login : `Batman`}
+              {username.length > 2 && verifica != "n" ? userData.login : `Batman`}
             </Text>
             <Text
               variant="body4"
@@ -207,7 +209,7 @@ export default function PaginaInicial() {
                 marginTop: "8px",
               }}
             >
-              {username.length > 2 && x != "n"
+              {username.length > 2 && verifica != "n"
                 ? userData.location
                 : `Gotham City`}
             </Text>

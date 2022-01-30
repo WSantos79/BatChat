@@ -350,7 +350,7 @@ function MessageList(props) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     let rollToBottom = setTimeout(() => scrollToBottom(), 400);
     return () => {
       clearTimeout(rollToBottom);
@@ -419,7 +419,8 @@ function MessageList(props) {
               <a
                 target="_blank"
                 href={`https://github.com/${mensagem.username}`}
-              >
+
+              >                
                 <Image
                   title={`Ver GitHub ${mensagem.username}`}
                   styleSheet={{
@@ -480,12 +481,10 @@ function MessageList(props) {
               />
             ) : (
               mensagem.texto
-            )}           
+            )}
           </Text>
         );
-        
-      })}      
+      })}
     </Box>
-    
   );
 }
