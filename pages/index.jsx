@@ -106,7 +106,7 @@ export default function PaginaInicial() {
               if(appConfig.username < 1) {
                 console.log("digite um nome")
               }else{
-                appConfig.img = `https://github.com/WSantos79/BatChat/blob/main/public/userdefault.png?raw=true`
+                appConfig.img = `https://github.com/WSantos79/BatChat/blob/main/public/userdefault.jpg?raw=true`
                 rota.push(`/chat?username=${appConfig.username}`)         
               } 
             }}
