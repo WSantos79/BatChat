@@ -74,6 +74,7 @@ export default function ChatPage() {
       from: userlogged,
       texto: digitado,
       username: appConfig.username,
+      img: appConfig.img,
     };
 
     supabaseClient
@@ -435,7 +436,7 @@ function MessageList(props) {
                       height: "35px",
                     },
                   }}
-                  src={`https://github.com/${mensagem.username}.png`}
+                  src={`${mensagem.img}`}
                 />
               </a>
 

@@ -1,5 +1,6 @@
 
-{
+{ 
+  "img" : "",
   "username": "Batman",
   "stickers": [
     "https://media.giphy.com/media/twt8d5G1CDOzwwmpyf/giphy.gif",
@@ -62,7 +63,8 @@
         "600": "#273e53",
         "700": "#1a2937",
         "800": "#141f2a",
-        "900": "#0d141c"
+        "900": "#0d141c",
+        "999": "#F00"
       },
       "neutrals": {
         "101": "#FFFFFF",

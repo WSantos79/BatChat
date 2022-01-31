@@ -103,13 +103,12 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={(e) => {
               e.preventDefault();
-              if (typeof userData.name === "undefined" && verifica != 'n') {
-                rota.push(`/chat?username=Batman`);
-              }else if( verifica == 'n'){
-                rota.push(`/chat?username=${appConfig.username}`);
-              }else {
-                rota.push(`/chat?username=${userData.name}`);
-              }   //  TarciaMara
+              if(appConfig.username < 1) {
+                console.log("digite um nome")
+              }else{
+                appConfig.img = `https://github.com/WSantos79/BatChat/blob/main/public/userdefault.png?raw=true`
+                rota.push(`/chat?username=${appConfig.username}`)         
+              } 
             }}
             styleSheet={{
               display: "flex",
@@ -151,13 +150,43 @@ export default function PaginaInicial() {
               type="submit"
               label="Entrar"
               fullWidth
+              styleSheet={{
+                marginBottom: "12px"
+              }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
                 mainColor: appConfig.theme.colors.primary[500],
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
-            />
+            />            
+            <Button
+            iconName="github"     
+            type="button"
+            label="Entrar com GitHub"
+            fullWidth
+            onClick={(e) => {
+              e.preventDefault();
+              if (typeof userData.name === "undefined" && verifica != 'n') {
+                console.log("usuario github nao encontrado")
+              }else if( verifica == 'n'){
+                console.log("usuario github nao encontrado")
+              }else {
+                appConfig.img = `https://github.com/${username}.png`
+                rota.push(`/chat?username=${userData.name}`);
+              }   
+            }}
+            styleSheet={{              
+              fontSize: "20px",              
+              
+            }}
+            buttonColors={{
+              contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
+              mainColor: appConfig.theme.colors.primary[500],
+              mainColorLight: appConfig.theme.colors.primary[400],
+              mainColorStrong: appConfig.theme.colors.primary[600],
+            }}
+          />
           </Box>
           {/* Formulário */}
 
