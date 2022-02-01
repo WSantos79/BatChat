@@ -390,7 +390,7 @@ function MessageList(props) {
               maxWidth: "150px",
               align: "center",
             }}
-            alt="Carregando"
+            alt="Carregando..."
             src="batload.gif"
           />
         </Box>
@@ -412,10 +412,7 @@ function MessageList(props) {
             <Box
               styleSheet={{
                 marginBottom: "8px",
-                alignItems: {
-                  xs: "flex-start",
-                  md: "center",
-                },
+                alignItems: "center",
                 display: "flex",
               }}
             >

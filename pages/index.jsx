@@ -59,7 +59,7 @@ export default function PaginaInicial() {
     <>
       <Head>
         <title>BatChat</title>
-
+       
         <link
           rel="apple-touch-icon"
           sizes="180x180"
