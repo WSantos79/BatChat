@@ -1,4 +1,4 @@
-# :star: BatChat
+# <p align="center"> :star: BatChat</p>
 
 ## :mag: Veja o projeto online !
 
