@@ -37,6 +37,7 @@ function escutaMsgRealTime(addMsg) {
     .on("INSERT", (resposta) => {
       if (resposta.new.username != appConfig.username) {
         novaMsgSom();
+        scrollToBottom();
       }
       addMsg(resposta.new);
     })
@@ -347,17 +348,18 @@ function MessageList(props) {
     }
   }
   const messagesEndRef = useRef(null);
-  const scrollToBottom = () => {
+
+  function scrollToBottom() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
+ /* useEffect(() => {
     let rollToBottom = setTimeout(() => scrollToBottom(), 400);
     return () => {
       clearTimeout(rollToBottom);
     };
   }, [props.mensagens]);
-
+*/
   return (
     <Box
       tag="ul"

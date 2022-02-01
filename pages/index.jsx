@@ -33,6 +33,7 @@ export default function PaginaInicial() {
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState({});
   const [verifica, setVerifica] = useState("y");
+  const [displaySpan, setDisplaySpan] = useState("none");
   const rota = useRouter();
   const gitHubUrl = `https://api.github.com/users/${username}`;
 
@@ -58,12 +59,25 @@ export default function PaginaInicial() {
     <>
       <Head>
         <title>BatChat</title>
-        
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-        <link rel="manifest" href="/site.webmanifest"/>
-      
+
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <Box
         styleSheet={{
@@ -103,12 +117,12 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={(e) => {
               e.preventDefault();
-              if(appConfig.username < 1) {
-                console.log("digite um nome")
-              }else{
-                appConfig.img = `https://github.com/WSantos79/BatChat/blob/main/public/userdefault.jpg?raw=true`
-                rota.push(`/chat?username=${appConfig.username}`)         
-              } 
+              if (appConfig.username < 1) {
+                console.log("digite um nome");
+              } else {
+                appConfig.img = `https://github.com/WSantos79/BatChat/blob/main/public/userdefault.jpg?raw=true`;
+                rota.push(`/chat?username=${appConfig.username}`);
+              }
             }}
             styleSheet={{
               display: "flex",
@@ -120,7 +134,7 @@ export default function PaginaInicial() {
               marginBottom: "32px",
             }}
           >
-            <AgaDois>Boas vindas de volta ao BatChat!</AgaDois>
+            <AgaDois>Boas vindas ao BatChat !</AgaDois>
             <Text
               variant="body3"
               styleSheet={{
@@ -130,6 +144,7 @@ export default function PaginaInicial() {
             ></Text>
 
             <TextField
+              required
               fullWidth
               placeholder="Seu usuário GitHub"
               onChange={(e) => {
@@ -146,12 +161,20 @@ export default function PaginaInicial() {
                 },
               }}
             />
+            <Text styleSheet={{
+              color: "#E00000",
+              marginBottom: "8px",
+              display: `${displaySpan}`,
+              alignSelf: "flex-start", 
+            }} variant="body3">
+              Usuário não encontrado
+            </Text>
             <Button
               type="submit"
               label="Entrar"
               fullWidth
               styleSheet={{
-                marginBottom: "12px"
+                marginBottom: "12px",
               }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
@@ -159,34 +182,35 @@ export default function PaginaInicial() {
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
-            />            
+            />
             <Button
-            iconName="github"     
-            type="button"
-            label="Entrar com GitHub"
-            fullWidth
-            onClick={(e) => {
-              e.preventDefault();
-              if (typeof userData.name === "undefined" && verifica != 'n') {
-                console.log("usuario github nao encontrado")
-              }else if( verifica == 'n'){
-                console.log("usuario github nao encontrado")
-              }else {
-                appConfig.img = `https://github.com/${username}.png`
-                rota.push(`/chat?username=${userData.name}`);
-              }   
-            }}
-            styleSheet={{              
-              fontSize: "20px",              
-              
-            }}
-            buttonColors={{
-              contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
-              mainColor: appConfig.theme.colors.primary[500],
-              mainColorLight: appConfig.theme.colors.primary[400],
-              mainColorStrong: appConfig.theme.colors.primary[600],
-            }}
-          />
+              iconName="github"
+              type="button"
+              label="Entrar com GitHub"
+              fullWidth
+              onClick={(e) => {
+                e.preventDefault();
+                if (typeof userData.name === "undefined" && verifica != "n") {
+                  //console.log("usuario github nao encontrado");
+                  setDisplaySpan("flex");
+                } else if (verifica == "n") {
+                  //console.log("usuario github nao encontrado");
+                  setDisplaySpan("flex");
+                } else {
+                  appConfig.img = `https://github.com/${username}.png`;
+                  rota.push(`/chat?username=${userData.name}`);
+                }
+              }}
+              styleSheet={{
+                fontSize: "20px",
+              }}
+              buttonColors={{
+                contrastColor: appConfig.theme.colors.neutrals[101], // icon de dentro
+                mainColor: appConfig.theme.colors.primary[500],
+                mainColorLight: appConfig.theme.colors.primary[400],
+                mainColorStrong: appConfig.theme.colors.primary[600],
+              }}
+            />
           </Box>
           {/* Formulário */}
 
@@ -226,7 +250,9 @@ export default function PaginaInicial() {
                 borderRadius: "1000px",
               }}
             >
-              {username.length > 2 && verifica != "n" ? userData.login : `Batman`}
+              {username.length > 2 && verifica != "n"
+                ? userData.login
+                : `Batman`}
             </Text>
             <Text
               variant="body4"
