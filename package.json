@@ -4,7 +4,7 @@
   "description": "Chat",
   "main": "index.js",
   "repository": "https://github.com/WSantos79/BatChat",
-  "author": "WSantos79",
+  "author": "Wellington Santos - WSantos79",
   "license": "MIT",
   "dependencies": {
     "@skynexui/components": "^1.23.7",
