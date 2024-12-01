@@ -48,13 +48,14 @@ Projeto desenvolvido durante a imersão React da Alura. Um chat em tempo real on
    Crie uma Nova Tabela com o nome de mensagens
    Desabilite (RLS)
    Insira as colunas da tabela conforme descrito abaixo:
-   Nome da Coluna	Tipo	Configuração
-    id	int8	Primary Key (Marque como PK e Auto Increment)
-    created_at	timestamptz	Default: now()
-    from	text	Sem configuração adicional
-    texto	text	Sem configuração adicional
-    username	text	Sem configuração adicional
-    img	text	Sem configuração adicional
+      | Coluna        | Tipo        | Configurações                               |
+   |--------------|-------------|-------------------------------------------|
+   | id           | int8        | Primary Key (PK), Auto Increment            |
+   | created_at   | timestamptz | Default: now()                             |
+   | from         | text        |                                           |
+   | texto        | text        |                                           |
+   | username     | text        |                                           |
+   | img          | text        |                                           |
 ## 🛡️ Segurança
 
 Certifique-se de proteger seu arquivo .env e nunca publique credenciais sensíveis em repositórios públicos.
