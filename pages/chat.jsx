@@ -20,14 +20,12 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function novaMsgSom() {
   var som = new Audio();
-  som.src =
-    "https://protettordelinks.com/wp-content/baixar/mensagem_msn_toquesengracadosmp3.com.mp3";
+  som.src ="audio/nova-msgm.mp3";
   som.play();
 }
 function enviarMsgSom() {
   var somB = new Audio();
-  somB.src =
-    "https://protettordelinks.com/wp-content/baixar/mensagem_enviada_msn_toquesengracadosmp3.com.mp3";
+  somB.src = "audio/enviar-msgm.mp3";
   somB.play();
 }
 
@@ -55,7 +53,7 @@ export default function ChatPage() {
     supabaseClient
       .from("mensagens")
       .select("*")
-      .order("id", { ascending: false })
+      .order('created_at', { ascending: false })
       .then(({ data }) => {
         // usa o { data } para pegar o dado direto q precisa ou apenas (dados)
         setListaDeMensagens(data);
@@ -70,6 +68,8 @@ export default function ChatPage() {
   }, [listaDeMensagens]); // se a 'listaDeMensagens' mudar, ele executa
 
   function handleNovaMsg(digitado) {
+    if (!digitado.trim()) return; //evitar mensagem vazia
+    enviarMsgSom();
     const mensagem = {
       // id: listaDeMensagens.length,
       from: userlogged,
@@ -198,7 +198,7 @@ export default function ChatPage() {
             setListaDeMensagens={setListaDeMensagens}
             listaDeMensagens={listaDeMensagens}
             userlogged={userlogged}
-            NovaData={NovaData}
+            NovaData={NovaData}            
           />
           <Box
             as="form"
@@ -221,8 +221,7 @@ export default function ChatPage() {
               onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  handleNovaMsg(msg);
-                  enviarMsgSom();
+                  handleNovaMsg(msg);             
                 }
               }}
               placeholder="Insira sua mensagem aqui..."
@@ -309,18 +308,21 @@ function MessageList(props) {
 
     //console.log(mensagem.id)
     supabaseClient
-      .from("mensagens")
-      .delete()
-      .match({ id: mensagem.id })
-      .then(({ data }) => {
+    .from("mensagens")
+    .delete()
+    .match({ id: mensagem.id })
+    .then(({ data }) => {
+      if (data.length > 0) {
         const messageListFiltered = props.mensagens.filter(
-          (messageFiltered) => {
-            return messageFiltered.id != data[0].id;
-          }
+          (messageFiltered) => messageFiltered.id !== data[0].id
         );
         props.setListaDeMensagens(messageListFiltered);
-      });
-  }
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao deletar mensagem:", error);
+    });
+}
 
   function icondelete(mensagem) {
     if (mensagem.from == props.userlogged) {

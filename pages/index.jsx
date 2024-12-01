@@ -10,7 +10,7 @@ import {
 } from "@skynexui/components";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
+require('dotenv').config()
 function AgaDois(props) {
   const Tag = props.tag || "h2";
   return (
