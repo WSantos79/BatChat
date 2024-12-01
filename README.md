@@ -35,6 +35,30 @@ Projeto desenvolvido durante a imersão React da Alura. Um chat em tempo real on
 + Clone este repositório.
 + Execute `yarn install` ou `npm install` para instalar as dependências.
 + Inicie o projeto `yarn dev` ou `npm run dev`.
++ Configure as variáveis de ambiente:
+
+   Crie um arquivo .env na raiz do projeto
+
+   Configure as seguintes variáveis no arquivo:
+   ```bash
+   SUPABASE_URL = "sua_url_supabase"
+   SUPABASE_API_KEY = "sua_api_key"```
+
+* Configure o SupaBase
+   Crie uma Nova Tabela com o nome de mensagens
+   Desabilite (RLS)
+   Insira as colunas da tabela conforme descrito abaixo:
+   Nome da Coluna	Tipo	Configuração
+    id	int8	Primary Key (Marque como PK e Auto Increment)
+    created_at	timestamptz	Default: now()
+    from	text	Sem configuração adicional
+    texto	text	Sem configuração adicional
+    username	text	Sem configuração adicional
+    img	text	Sem configuração adicional
+## 🛡️ Segurança
+
+Certifique-se de proteger seu arquivo .env e nunca publique credenciais sensíveis em repositórios públicos.
+
 
 ## :smiley: Autor
 
@@ -42,16 +66,3 @@ Projeto desenvolvido durante a imersão React da Alura. Um chat em tempo real on
 
 [![Linkedin Badge](https://img.shields.io/badge/-WellingtonSantos79-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/wellingtonsantos79/)](https://www.linkedin.com/in/wellingtonsantos79/) 
 [![Gmail Badge](https://img.shields.io/badge/-WellingtonSantos7799@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:wellingtonsantos7799@gmail.com)](mailto:wellingtonsantos7799@gmail.com)
-
-
-
-
-
-
-
-
-
-
-
-
-

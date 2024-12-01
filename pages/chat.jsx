@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   Box,
   Text,
@@ -13,9 +14,8 @@ import { useRouter } from "next/router";
 import { ButtonSendSticker } from "../src/components/ButtonSendSticker";
 import Head from "next/head";
 
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMyMjE4OCwiZXhwIjoxOTU4ODk4MTg4fQ.0CUNCKzptu_jnI1AMmqQz1UfM5YtVWdp5ukosh2k-y8";
-const SUPABASE_URL = "https://ijzsexiwhccnepwwhlmt.supabase.co";
+const SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_API_KEY);
+const SUPABASE_URL = (process.env.NEXT_PUBLIC_SUPABASE_URL);
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function novaMsgSom() {
